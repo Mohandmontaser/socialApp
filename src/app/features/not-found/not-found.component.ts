@@ -1,18 +1,17 @@
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { inject } from '@angular/core';
 
+@Component({
+  selector: 'app-not-found',
+  imports: [],
+  templateUrl: './not-found.component.html',
+  styleUrl: './not-found.component.css',
+})
 export class NotFoundComponent {
+  private readonly router = inject(Router);
 
-  private router = inject(Router);
-
-  goBack() {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      this.router.navigate(['/feed']);
-    } else {
-      this.router.navigate(['/login']);
-    }
+  goBack(): void {
+    const token = localStorage.getItem('socialToken');
+    this.router.navigate([token ? '/timeline' : '/login']);
   }
-
 }

@@ -1,14 +1,22 @@
-<main class="min-h-screen bg-slate-100">
-  <div class="mx-auto grid max-w-7xl grid-cols-1 items-start gap-4 px-4 py-5 sm:px-6 lg:grid-cols-[192px_minmax(0,1fr)_280px] lg:gap-5 lg:px-8">
-    <div class="hidden lg:block"><app-left-sidebar /></div>
 
-    <section class="min-w-0 space-y-4" aria-label="Timeline posts">
+<main class="min-h-screen bg-slate-100">
+  <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6 lg:grid lg:grid-cols-[192px_minmax(0,1fr)_280px] lg:items-start lg:gap-5 lg:px-8">
+
+    <!-- Left Sidebar -->
+    <div class="order-1 lg:order-none lg:block">
+      <app-left-sidebar />
+    </div>
+
+    <!-- Suggested Friends -->
+    <div class="order-2 lg:order-none lg:col-start-3 lg:row-start-1">
+      <app-suggested-friends />
+    </div>
+
+    <!-- Timeline Posts -->
+    <section class="order-3 min-w-0 space-y-4 lg:order-none lg:col-start-2 lg:row-start-1" aria-label="Timeline posts">
       <app-create-post />
       <router-outlet />
     </section>
 
-    <div class="hidden md:block"><app-suggested-friends /></div>
   </div>
-
-  <div class="px-4 pb-5 lg:hidden"><app-left-sidebar /></div>
 </main>
