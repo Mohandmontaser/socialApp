@@ -22,4 +22,14 @@
         No posts yet. Follow people to see their posts here.
       </p>
     }
+  
+    @if (hasMore() && !isLoadingMore()) {
+      <div appInfiniteScroll (scrolled)="loadMore()" class="h-1"></div>
+    }
+  
+    @if (isLoadingMore()) {
+      <div class="flex justify-center py-4">
+        <i class="fa-solid fa-spinner fa-spin text-xl text-[#1877f2]"></i>
+      </div>
+    }
   }

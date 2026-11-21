@@ -12,17 +12,18 @@ export class PostsService {
   postCreated$ = new Subject<void>();
 
 
-  getCommunityPosts(): Observable<any> {
-    return this.httpClient.get(environment.baseURL + 'posts');
+  getCommunityPosts(page: number = 1, limit: number = 10): Observable<any> {
+    return this.httpClient.get(environment.baseURL + 'posts', { params: { page, limit } });
+  }
+
+  getFeedPosts(page: number = 1, limit: number = 10): Observable<any> {
+    return this.httpClient.get(environment.baseURL + 'posts/feed', { params: { page, limit } });
   }
 
   getAllPosts(): Observable<any> {
     return this.getCommunityPosts();
   }
 
-  getFeedPosts(): Observable<any> {
-    return this.httpClient.get(environment.baseURL + 'posts/feed');
-  }
 
   getSinglePost(postId: string): Observable<any> {
     return this.httpClient.get(environment.baseURL + `posts/${postId}`);
@@ -47,6 +48,8 @@ export class PostsService {
   bookmarkPost(postId: string): Observable<any> {
     return this.httpClient.put(environment.baseURL + `posts/${postId}/bookmark`, {});
   }
+
+
 
   sharePost(postId: string, body: string): Observable<any> {
     return this.httpClient.post(environment.baseURL + `posts/${postId}/share`, { body });
