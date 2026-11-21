@@ -1,0 +1,138 @@
+<div class="mx-auto max-w-7xl px-3 py-3.5">
+    <main class="min-w-0">
+      <section class="mx-auto max-w-3xl rounded-xl border border-slate-200 bg-white shadow-sm sm:rounded-2xl">
+        <!-- Header -->
+        <div class="border-b border-slate-200 p-4 sm:p-5">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-black text-slate-900 sm:text-2xl">Notifications</h2>
+              <p class="mt-1 text-sm text-slate-500">
+                Realtime updates for likes, comments, shares, and follows.
+              </p>
+            </div>
+  
+            <button
+              type="button"
+              (click)="markAllAsRead()"
+              [disabled]="isMarkingAll() || unreadCount() === 0"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 6 7 17l-5-5"></path>
+                <path d="m22 10-7.5 7.5L13 16"></path>
+              </svg>
+              {{ isMarkingAll() ? 'Marking...' : 'Mark all as read' }}
+            </button>
+          </div>
+  
+          <!-- Filter tabs -->
+          <div class="mt-4 grid grid-cols-2 gap-2 sm:flex sm:items-center">
+            <button
+              type="button"
+              (click)="filter.set('all')"
+              class="rounded-full px-4 py-1.5 text-sm font-bold transition"
+              [class]="filter() === 'all' ? 'bg-[#1877f2] text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
+            >
+              All
+            </button>
+  
+            <button
+              type="button"
+              (click)="filter.set('unread')"
+              class="inline-flex items-center justify-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold transition"
+              [class]="filter() === 'unread' ? 'bg-[#1877f2] text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
+            >
+              Unread
+              @if (unreadCount() > 0) {
+                <span
+                  class="rounded-full px-2 py-0.5 text-[11px] font-bold"
+                  [class]="filter() === 'unread' ? 'bg-white/25 text-white' : 'bg-rose-500 text-white'"
+                >
+                  {{ unreadCount() }}
+                </span>
+              }
+            </button>
+          </div>
+        </div>
+  
+        <!-- List -->
+        <div class="space-y-2 p-3 sm:p-4">
+          @if (isLoading()) {
+            @for (item of skeletonItems; track item) {
+              <div class="flex items-start gap-3 rounded-xl border border-slate-200 p-3">
+                <ngx-skeleton-loader appearance="circle" [theme]="{ width: '44px', height: '44px', margin: '0' }" />
+                <div class="flex-1">
+                  <ngx-skeleton-loader [theme]="{ width: '70%', height: '14px', margin: '0 0 8px' }" />
+                  <ngx-skeleton-loader [theme]="{ width: '40%', height: '12px', margin: '0' }" />
+                </div>
+              </div>
+            }
+          } @else {
+            @for (n of visibleNotifications(); track n._id) {
+              <button
+                type="button"
+                (click)="open(n)"
+                class="flex w-full items-start gap-3 rounded-xl border p-3 text-left transition hover:bg-slate-50"
+                [class]="n.isRead ? 'border-slate-200 bg-white' : 'border-blue-100 bg-[#f0f7ff]'"
+              >
+                <!-- Avatar + type badge -->
+                <div class="relative shrink-0">
+                  <img
+                    [src]="n.actor.photo"
+                    [alt]="n.actor.name"
+                    class="h-11 w-11 rounded-full border border-slate-100 object-cover"
+                  />
+                  <span
+                    class="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white text-[9px] text-white"
+                    [class]="style(n).color"
+                  >
+                    <i [class]="style(n).icon"></i>
+                  </span>
+                </div>
+  
+                <!-- Content -->
+                <div class="min-w-0 flex-1">
+                  <p class="text-sm leading-5 text-slate-800">
+                    <span class="font-extrabold text-slate-900">{{ n.actor.name }}</span>
+                    {{ style(n).text }}
+                  </p>
+  
+                  @if (n.entity?.body) {
+                    <p class="mt-1 line-clamp-2 rounded-lg bg-slate-100 px-2.5 py-1.5 text-xs text-slate-600">
+                      {{ n.entity?.body }}
+                    </p>
+                  }
+  
+                  <p class="mt-1 text-xs font-semibold" [class]="n.isRead ? 'text-slate-400' : 'text-[#1877f2]'">
+                    {{ n.createdAt | timeAgo }}
+                  </p>
+                </div>
+  
+                <!-- Unread dot -->
+                @if (!n.isRead) {
+                  <span class="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#1877f2]" aria-label="Unread"></span>
+                }
+              </button>
+            } @empty {
+              <div class="rounded-xl border border-slate-200 bg-slate-50 p-8 text-center">
+                <p class="text-sm font-semibold text-slate-500">
+                  {{ filter() === 'unread' ? 'No unread notifications.' : 'No notifications yet.' }}
+                </p>
+              </div>
+            }
+  
+            @if (hasMore() && filter() === 'all') {
+              <button
+                type="button"
+                (click)="loadMore()"
+                [disabled]="isLoadingMore()"
+                class="mt-2 w-full rounded-xl border border-slate-200 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {{ isLoadingMore() ? 'Loading...' : 'Load more' }}
+              </button>
+            }
+          }
+        </div>
+      </section>
+    </main>
+  </div>

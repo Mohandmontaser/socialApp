@@ -1,0 +1,42 @@
+<aside
+  class="rounded-2xl border border-slate-200 bg-white p-2.5 shadow-sm"
+  aria-label="Sidebar navigation"
+>
+  <nav class="flex flex-col gap-1">
+    <a
+      routerLink="/timeline/feed"
+      routerLinkActive="bg-blue-50 text-blue-700"
+      class="flex items-center gap-3 rounded-xl p-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+    >
+      <i class="fa-regular fa-newspaper w-5 text-center"></i>
+      <span>Feed</span>
+    </a>
+
+    <a
+      routerLink="/timeline/my-posts"
+      routerLinkActive="bg-blue-50 text-blue-700"
+      class="flex items-center gap-3 rounded-xl p-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+    >
+      <i class="fa-solid fa-wand-magic-sparkles w-5 text-center"></i>
+      <span>My Posts</span>
+    </a>
+
+    <a
+      routerLink="/timeline/community"
+      routerLinkActive="bg-blue-50 text-blue-700"
+      class="flex items-center gap-3 rounded-xl p-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+    >
+      <i class="fa-solid fa-globe w-5 text-center"></i>
+      <span>Community</span>
+    </a>
+
+    <a
+      routerLink="/timeline/saved"
+      routerLinkActive="bg-blue-50 text-blue-700"
+      class="flex items-center gap-3 rounded-xl p-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+    >
+      <i class="fa-regular fa-bookmark w-5 text-center"></i>
+      <span>Saved</span>
+    </a>
+  </nav>
+</aside>

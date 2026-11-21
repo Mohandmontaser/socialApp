@@ -1,3 +1,37 @@
+
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+@import 'ngx-toastr/toastr';
+
+@theme {
+  --color-mainColor: #00298D;
+  --color-secondColor: #F0F2F5;
+
+  /* Route Posts colors */
+  --color-primary: #00298D;
+  --color-primary-hover: #001F6B;
+
+  --color-input: #F8FAFC;
+  --color-border: #E2E8F0;
+
+  --color-heading: #0F172A;
+  --color-text: #64748B;
+  --color-muted: #94A3B8;
+
+  --color-tabs: #F1F5F9;
+}
+
+
+@utility container {
+  margin-inline: auto;
+}
+
+
+body {
+  font-family: "SN Pro", sans-serif;
+  background-color: var(--color-secondColor);
+}

@@ -1,0 +1,295 @@
+<div class="mx-auto max-w-7xl px-3 py-4 sm:px-5 sm:py-5">
+  <main class="min-w-0">
+    <div class="space-y-5 sm:space-y-6">
+
+      <!-- ================= Header ================= -->
+      @if (!isLoadingProfile()) {
+      <section
+        class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_2px_10px_rgba(15,23,42,.06)] sm:rounded-[28px]"
+      >
+        <!-- Cover -->
+        <div
+          class="group/cover relative h-44 bg-[linear-gradient(112deg,#0f172a_0%,#1e3a5f_36%,#2b5178_72%,#5f8fb8_100%)] sm:h-52 lg:h-60"
+        >
+          @if (userData().cover) {
+            <img [src]="userData().cover" alt="cover" class="absolute inset-0 h-full w-full object-cover" />
+          }
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_24%,rgba(255,255,255,.14)_0%,rgba(255,255,255,0)_36%)]"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_86%_12%,rgba(186,230,253,.22)_0%,rgba(186,230,253,0)_44%)]"></div>
+          <div class="absolute -left-16 top-10 h-36 w-36 rounded-full bg-white/10 blur-3xl"></div>
+          <div class="absolute right-8 top-6 h-48 w-48 rounded-full bg-[#c7e6ff]/10 blur-3xl"></div>
+          <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/25 to-transparent"></div>
+
+          @if (isOwnProfile()) {
+            <div
+              class="pointer-events-none absolute right-2 top-2 z-10 flex max-w-[90%] flex-wrap items-center justify-end gap-1.5 opacity-100 transition duration-200 sm:right-3 sm:top-3 sm:max-w-none sm:gap-2 sm:opacity-0 sm:group-hover/cover:opacity-100 sm:group-focus-within/cover:opacity-100"
+            >
+              <label
+                class="pointer-events-auto inline-flex cursor-pointer items-center gap-1 rounded-lg bg-black/45 px-2 py-1 text-[11px] font-bold text-white backdrop-blur transition hover:bg-black/60 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"></path>
+                  <circle cx="12" cy="13" r="3"></circle>
+                </svg>
+                Add cover
+                <input accept="image/*" class="hidden" type="file" />
+              </label>
+            </div>
+          }
+        </div>
+
+        <div class="relative -mt-12 px-3 pb-5 sm:-mt-16 sm:px-8 sm:pb-6">
+          <div class="rounded-3xl border border-white/60 bg-white/95 p-4 shadow-sm backdrop-blur-xl sm:p-7">
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div class="min-w-0">
+                <div class="flex min-w-0 items-end gap-3 sm:gap-4">
+                  <!-- Avatar -->
+                  <div class="group/avatar relative shrink-0">
+                    <button type="button" class="cursor-zoom-in rounded-full">
+                      <img
+                        [alt]="userData().name"
+                        class="h-24 w-24 rounded-full border-4 border-white object-cover shadow-md ring-2 ring-[#dbeafe] sm:h-28 sm:w-28"
+                        [class.opacity-50]="isUploadingPhoto()"
+                        [src]="userData().photo"
+                      />
+                    </button>
+
+                    <button
+                      type="button"
+                      class="absolute bottom-1 left-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white text-[#1877f2] opacity-100 shadow-sm ring-1 ring-slate-200 transition duration-200 hover:bg-slate-50 sm:opacity-0 sm:group-hover/avatar:opacity-100 sm:group-focus-within/avatar:opacity-100"
+                      title="View profile photo"
+                      aria-label="View profile photo"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m15 15 6 6"></path>
+                        <path d="m15 9 6-6"></path>
+                        <path d="M21 16v5h-5"></path>
+                        <path d="M21 8V3h-5"></path>
+                        <path d="M3 16v5h5"></path>
+                        <path d="m3 21 6-6"></path>
+                        <path d="M3 8V3h5"></path>
+                        <path d="M9 9 3 3"></path>
+                      </svg>
+                    </button>
+
+                    @if (isOwnProfile()) {
+                      <label
+                        class="absolute bottom-1 right-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#1877f2] text-white opacity-100 shadow-sm transition duration-200 hover:bg-[#166fe5] sm:opacity-0 sm:group-hover/avatar:opacity-100 sm:group-focus-within/avatar:opacity-100"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"></path>
+                          <circle cx="12" cy="13" r="3"></circle>
+                        </svg>
+                        <input accept="image/*" class="hidden" type="file" (change)="onPhotoSelected($event)" />
+                      </label>
+                    }
+                  </div>
+
+                  <!-- Name -->
+                  <div class="min-w-0 pb-1">
+                    <h2 class="truncate text-2xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                      {{ userData().name }}
+                    </h2>
+                    <p class="mt-1 truncate text-base font-semibold text-slate-500 sm:text-xl">
+                      &#64;{{ userData().username }}
+                    </p>
+
+                    <div class="mt-3 inline-flex max-w-full items-center gap-2 rounded-full border border-[#d7e7ff] bg-[#eef6ff] px-3 py-1 text-xs font-bold text-[#0b57d0]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                      </svg>
+                      <span class="truncate">Route Posts member</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stats -->
+              <div class="grid w-full grid-cols-3 gap-2 lg:w-[520px]">
+                <div class="rounded-2xl border border-slate-200 bg-white px-2 py-3 text-center sm:px-4 sm:py-4">
+                  <p class="text-[10px] font-bold uppercase tracking-wide text-slate-500 sm:text-xs">Followers</p>
+                  <p class="mt-1 text-2xl font-black text-slate-900 sm:text-3xl">{{ userData().followersCount }}</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white px-2 py-3 text-center sm:px-4 sm:py-4">
+                  <p class="text-[10px] font-bold uppercase tracking-wide text-slate-500 sm:text-xs">Following</p>
+                  <p class="mt-1 text-2xl font-black text-slate-900 sm:text-3xl">{{ userData().followingCount }}</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white px-2 py-3 text-center sm:px-4 sm:py-4">
+                  <p class="text-[10px] font-bold uppercase tracking-wide text-slate-500 sm:text-xs">
+                    {{ isOwnProfile() ? 'Bookmarks' : 'Posts' }}
+                  </p>
+                  <p class="mt-1 text-2xl font-black text-slate-900 sm:text-3xl">
+                    {{ isOwnProfile() ? userData().bookmarksCount : postsTotal() }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- About -->
+            <div class="mt-5 grid gap-4 lg:grid-cols-[1.3fr_.7fr]">
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 class="text-sm font-extrabold text-slate-800">About</h3>
+
+                <div class="mt-3 space-y-2 text-sm text-slate-600">
+                  <p class="flex min-w-0 items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-slate-500" aria-hidden="true">
+                      <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
+                      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    </svg>
+                    <span class="break-all">{{ userData().email }}</span>
+                  </p>
+
+                  <p class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-slate-500" aria-hidden="true">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                      <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                    </svg>
+                    Active on Route Posts
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                <div class="rounded-2xl border border-[#dbeafe] bg-[#f6faff] px-4 py-3">
+                  <p class="text-xs font-bold uppercase tracking-wide text-[#1f4f96]">
+                    {{ isOwnProfile() ? 'My posts' : 'Posts' }}
+                  </p>
+                  <p class="mt-1 text-2xl font-black text-slate-900">{{ postsTotal() }}</p>
+                </div>
+
+                @if (isOwnProfile()) {
+                  <div class="rounded-2xl border border-[#dbeafe] bg-[#f6faff] px-4 py-3">
+                    <p class="text-xs font-bold uppercase tracking-wide text-[#1f4f96]">Saved posts</p>
+                    <p class="mt-1 text-2xl font-black text-slate-900">{{ userData().bookmarksCount }}</p>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      } @else {
+      <!-- Header Skeleton -->
+      <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_2px_10px_rgba(15,23,42,.06)] sm:rounded-[28px]">
+        <ngx-skeleton-loader
+          [theme]="{ width: '100%', height: '176px', margin: '0', 'border-radius': '0', display: 'block' }"
+        />
+
+        <div class="relative -mt-12 px-3 pb-5 sm:-mt-16 sm:px-8 sm:pb-6">
+          <div class="rounded-3xl border border-white/60 bg-white/95 p-4 shadow-sm sm:p-7">
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div class="flex items-end gap-3 sm:gap-4">
+                <ngx-skeleton-loader
+                  appearance="circle"
+                  [theme]="{ width: '104px', height: '104px', margin: '0', border: '4px solid white' }"
+                />
+                <div class="pb-1">
+                  <ngx-skeleton-loader [theme]="{ width: '200px', height: '28px', margin: '0 0 8px' }" />
+                  <ngx-skeleton-loader [theme]="{ width: '120px', height: '16px', margin: '0 0 12px' }" />
+                  <ngx-skeleton-loader [theme]="{ width: '140px', height: '24px', margin: '0', 'border-radius': '9999px' }" />
+                </div>
+              </div>
+
+              <div class="grid w-full grid-cols-3 gap-2 lg:w-[520px]">
+                @for (s of [1, 2, 3]; track s) {
+                  <div class="rounded-2xl border border-slate-200 bg-white px-2 py-3 text-center sm:px-4 sm:py-4">
+                    <ngx-skeleton-loader [theme]="{ width: '60px', height: '10px', margin: '0 auto 8px', display: 'block' }" />
+                    <ngx-skeleton-loader [theme]="{ width: '36px', height: '28px', margin: '0 auto', display: 'block' }" />
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="mt-5 grid gap-4 lg:grid-cols-[1.3fr_.7fr]">
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <ngx-skeleton-loader [theme]="{ width: '60px', height: '14px', margin: '0 0 12px' }" />
+                <ngx-skeleton-loader [theme]="{ width: '70%', height: '14px', margin: '0 0 8px' }" />
+                <ngx-skeleton-loader [theme]="{ width: '50%', height: '14px', margin: '0' }" />
+              </div>
+              <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                @for (s of [1, 2]; track s) {
+                  <div class="rounded-2xl border border-[#dbeafe] bg-[#f6faff] px-4 py-3">
+                    <ngx-skeleton-loader [theme]="{ width: '80px', height: '12px', margin: '0 0 8px' }" />
+                    <ngx-skeleton-loader [theme]="{ width: '30px', height: '26px', margin: '0' }" />
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      }
+
+      <!-- ================= Tabs ================= -->
+      <section>
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="grid w-full gap-2 rounded-xl bg-slate-100 p-1.5 sm:inline-flex sm:w-auto sm:gap-0"
+               [class]="isOwnProfile() ? 'grid-cols-2' : 'grid-cols-1'">
+            <button
+              (click)="selectTab('posts')"
+              class="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-bold transition"
+              [class]="activeTab() === 'posts' ? 'bg-white text-[#1877f2] shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+            >
+              <i class="fa-regular fa-file-lines"></i>
+              {{ isOwnProfile() ? 'My Posts' : 'Posts' }}
+            </button>
+
+            @if (isOwnProfile()) {
+              <button
+                (click)="selectTab('saved')"
+                class="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-bold transition"
+                [class]="activeTab() === 'saved' ? 'bg-white text-[#1877f2] shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+              >
+                <i class="fa-regular fa-bookmark"></i>
+                Saved
+              </button>
+            }
+          </div>
+
+          <span class="rounded-full bg-[#e7f3ff] px-3 py-1 text-xs font-bold text-[#1877f2]">
+            {{ activeTab() === 'posts' ? postsTotal() : userData().bookmarksCount }}
+          </span>
+        </div>
+
+        <!-- Posts list (My Posts / Saved) --> 
+        @if (isLoadingList()) {
+          @for (item of skeletonPosts; track item) {
+            <article class="mb-4 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div class="mb-4 flex items-center gap-3">
+                <ngx-skeleton-loader appearance="circle" [theme]="{ width: '44px', height: '44px', margin: '0' }" />
+                <div class="flex-1">
+                  <ngx-skeleton-loader [theme]="{ width: '120px', height: '14px', margin: '0 0 5px' }" />
+                  <ngx-skeleton-loader [theme]="{ width: '80px', height: '12px', margin: '0' }" />
+                </div>
+              </div>
+
+              <ngx-skeleton-loader [theme]="{ width: '100%', height: '14px', margin: '0 0 8px' }" />
+              <ngx-skeleton-loader [theme]="{ width: '75%', height: '14px', margin: '0 0 15px' }" />
+              <ngx-skeleton-loader [theme]="{ width: '100%', height: '240px', margin: '0' }" />
+            </article>
+          }
+        } @else {
+          @for (post of visiblePosts(); track post.id) {
+            <app-post-card
+              [post]="post"
+              (deleted)="refreshPosts()"
+              (bookmarkToggled)="onBookmarkToggled($event)"
+            />
+          } @empty {
+            <p class="rounded-2xl border border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
+              {{ activeTab() === 'posts' ? 'No posts yet.' : 'No saved posts yet.' }}
+            </p>
+          }
+        }
+      </section>
+
+    </div>
+  </main>
+</div>
